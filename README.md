@@ -1,81 +1,150 @@
-# LargeXMLAnalyzer
+# HugeXMLInspector
 
-A tool for efficiently parsing massive XML files to extract specified nodes, elements, attributes, and sample data.
+**A tool for efficiently parsing massive XML files to extract specified nodes, elements, attributes, and sample data.**
 
-Usage:
-  HugeXMLInspector [options]
+## Table of Contents
 
-Description:
-  A tool for efficiently parsing massive XML files to extract specified nodes, elements, attributes, and sample data.
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Command-Line Options](#command-line-options)
+  - [Examples](#examples)
+- [To-Do](#to-do)
+- [Contributing](#contributing)
+- [License](#license)
 
-Options:
-  --input, -i <file>        Specifies the input XML file to process.
-  --output, -o <path>       Specifies the output directory or file path for the results.
-  --full, -f                Enables full data sampling instead of a limited sample.
-  --csv, -c                 Generates a sample CSV file of the extracted data.
-  --delimiter, -d <value>   Sets the delimiter for CSV output. Options are:
-                              - "tab"   : Use a tab character as the delimiter.
-                              - "space" : Use a space character as the delimiter.
-                              - "none"  : No delimiter.
-                              - any other character (default is comma ',').
-  --nodes, -n <nodes>       Specifies the list of node names to extract. List the node names separated by spaces.
-  --version, -v             Displays the application's version information.
-  --help, -h                Displays this help menu.
+## Introduction
 
-Examples:
+HugeXMLInspector is a console application designed to efficiently parse extremely large XML files (50 GB and above). It allows users to extract specified nodes, along with their elements, attributes, and sample data, without loading the entire XML file into memory.
 
-  1. **Extract specific nodes from an XML file:**
+## Features
 
-     ```
-     HugeXMLInspector --input largefile.xml --nodes book author title
-     ```
+- Efficient parsing of massive XML files.
+- Extraction of specified nodes and their associated data.
+- Supports full data sampling or limited samples for performance.
+- Customizable output options, including specifying output paths.
+- **Upcoming Feature:** CSV generation of extracted data (see [To-Do](#to-do)).
 
-  2. **Extract nodes with full data sampling and specify output path:**
+## Installation
 
-     ```
-     HugeXMLInspector -i largefile.xml -o results/ -f -n book author
-     ```
+1. **Prerequisites:**
 
-  3. **Generate a CSV file with tab as the delimiter:**
+   - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later installed on your system.
 
-     ```
-     HugeXMLInspector -i largefile.xml -c -d tab -n book author
-     ```
+2. **Clone the Repository:**
 
-  4. **Use a custom delimiter and extract nodes:**
+   ```bash
+   git clone https://github.com/desmati/LargeXMLAnalyzer.git
+   ```
 
-     ```
-     HugeXMLInspector -i largefile.xml -c -d "|" -n book author
-     ```
+3. **Build the Application:**
 
-  5. **Display version information:**
+   Navigate to the project directory and build the application:
 
-     ```
-     HugeXMLInspector --version
-     ```
+   ```bash
+   cd HugeXMLInspector
+   dotnet build
+   ```
 
-  6. **Display this help menu:**
+## Usage
 
-     ```
-     HugeXMLInspector --help
-     ```
+Run the application using the `dotnet run` command followed by the desired options:
 
-Notes:
+```bash
+dotnet run -- [options]
+```
 
-- **Input File (`--input`, `-i`):** The path to the large XML file you want to process. This option is required unless specified otherwise.
-- **Output Path (`--output`, `-o`):** The directory or file path where the results will be saved. If not specified, the output will be saved in the current directory.
-- **Full Data Sampling (`--full`, `-f`):** By default, the tool may limit the amount of data sampled for performance reasons. Use this option to process and extract all available data.
-- **Generate CSV (`--csv`, `-c`):** If specified, the tool will generate a CSV file containing the extracted data.
-- **Delimiter (`--delimiter`, `-d`):** Use this option to specify a delimiter for the CSV output. If not set, the default delimiter is a comma `,`.
-- **Nodes (`--nodes`, `-n`):** List the XML node names you wish to extract. Provide them as a space-separated list after the `--nodes` or `-n` option. This option should be placed at the end of the command to ensure all nodes are captured.
-- **Help (`--help`, `-h`):** Displays information about command-line options and usage examples.
+### Command-Line Options
 
-**Example Explanation:**
+- `--input`, `-i <file>`  
+  Specifies the input XML file to process.
 
-- **Example 1:** Extracts the nodes `book`, `author`, and `title` from `largefile.xml` using default settings.
-- **Example 2:** Extracts nodes with full data sampling and saves the results to the `results/` directory.
-- **Example 3:** Generates a CSV file with a tab delimiter, extracting the specified nodes.
-- **Example 4:** Uses a custom delimiter `|` (pipe character) for the CSV output.
-- **Example 5 & 6:** Display version information and help menu, respectively.
+- `--output`, `-o <path>`  
+  Specifies the output directory or file path for the results.
 
-Feel free to combine these options to suit your needs. If you encounter any issues or need further assistance, please open an issue.
+- `--full`, `-f`  
+  Enables full data sampling instead of a limited sample.
+
+- `--csv`, `-c`  
+  Generates a sample CSV file of the extracted data. **(Coming Soon)**
+
+- `--delimiter`, `-d <value>`  
+  Sets the delimiter for CSV output. Options are:
+  - `"tab"`   : Use a tab character as the delimiter.
+  - `"space"` : Use a space character as the delimiter.
+  - `"none"`  : No delimiter.
+  - Any other character (default is comma `,`).
+
+- `--nodes`, `-n <nodes>`  
+  Specifies the list of node names to extract. List the node names separated by spaces.
+
+- `--version`, `-v`  
+  Displays the application's version information.
+
+- `--help`, `-h`  
+  Displays the help menu.
+
+### Examples
+
+1. **Extract specific nodes from an XML file:**
+
+   ```bash
+   dotnet run -- --input largefile.xml --nodes book author title
+   ```
+
+2. **Extract nodes with full data sampling and specify output path:**
+
+   ```bash
+   dotnet run -- -i largefile.xml -o results/ -f -n book author
+   ```
+
+3. **Generate a CSV file with tab as the delimiter:**
+
+   ```bash
+   dotnet run -- -i largefile.xml -c -d tab -n book author
+   ```
+
+4. **Use a custom delimiter and extract nodes:**
+
+   ```bash
+   dotnet run -- -i largefile.xml -c -d "|" -n book author
+   ```
+
+5. **Display version information:**
+
+   ```bash
+   dotnet run -- --version
+   ```
+
+6. **Display the help menu:**
+
+   ```bash
+   dotnet run -- --help
+   ```
+
+## To-Do
+
+- [ ] **Implement `--csv` Option:** Enable the generation of CSV files containing the extracted data.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes with clear messages.
+4. Open a pull request describing your changes.
+
+## License
+
+This project is licensed under the [Apache License v2](LICENSE).
+
+
+
+
+
+
+
+
+

@@ -79,10 +79,8 @@ public class OptionsHandler
             Environment.Exit(1);
         }
 
-        Console.Clear();
         Console.WriteLine("Inspecting XML file size...");
         var linesCount = Helpers.LineCount(options.SourceFile);
-        Console.Clear();
         Console.WriteLine($"XML total lines count: {linesCount}");
 
 

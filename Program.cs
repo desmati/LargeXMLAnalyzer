@@ -1,7 +1,5 @@
 ﻿using LargeXMLAnalyzer;
 
-using System.Reflection;
-
 var options = ArgumentHandler.HandleArguments(args);
 
 OptionsHandler.TakeInitialAction(options);

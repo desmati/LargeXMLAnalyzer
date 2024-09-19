@@ -1,10 +1,14 @@
-﻿using System.Diagnostics;
-using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace LargeXMLAnalyzer;
 
-public class XmlParser
+public static class CsvWriter
 {
     static XmlReaderSettings XmlSettings = new XmlReaderSettings
     {
@@ -12,30 +16,17 @@ public class XmlParser
         DtdProcessing = DtdProcessing.Ignore
     };
 
-    public static void Parse(ParserConfig config)
+    public static void ExportToCsv(NodeInfo[] nodeInfo, ParserConfig config)
     {
-        var nodes = new List<NodeInfo>();
-        foreach (var node in config.Nodes)
-        {
-            Console.WriteLine($"Current Node: {node}");
-            var nodeInfo = GetNodeInfo(node, config);
-            nodes.AddRange(nodeInfo);
+        Console.WriteLine("Exporting to csv...");
 
-            WriteToFile(nodeInfo, Path.GetFileName(config.SourceFile), config.OutputPath, node, config.FullDataSample);
+        foreach (NodeInfo node in nodeInfo)
+        {
+            Console.WriteLine(node.Name);
         }
 
-        if (config.GenerateSampleCsv)
-        {
-            var jsonFilePath = Path.Combine(config.OutputPath, "config.json");
-            File.WriteAllText(jsonFilePath, JsonSerializer.Serialize(nodes, new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-            }));
-
-            CsvWriter.ExportToCsv(nodes.ToArray(), config);
-        }
     }
-
+     
     public static NodeInfo[] GetNodeInfo(string node, ParserConfig config)
     {
         var start = DateTime.Now;
@@ -367,7 +358,6 @@ public class XmlParser
             if (info.Data.Count > 0)
             {
                 Console.WriteLine($"Appending sample data: {info.Data.Count}");
-                Console.WriteLine();
 
                 File.AppendAllText(path, "Nested Elements Count:" + info.Data.Count);
                 File.AppendAllText(path, Environment.NewLine);
